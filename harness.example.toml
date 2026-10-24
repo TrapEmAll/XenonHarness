@@ -1,0 +1,16 @@
+[project]
+# Keep copyrighted game binaries outside Git. This path is relative to this file.
+xex = "input/default.xex"
+
+[tools]
+# Set these to your local executables.
+ghidra_headless = "C:/Tools/ghidra/support/analyzeHeadless.bat"
+xenonrecomp = "C:/Tools/XenonRecomp/XenonRecomp.exe"
+objdiff = "C:/Tools/objdiff/objdiff-cli.exe"
+
+[agent]
+# Prefer a small wrapper script that accepts the generated prompt path as its last argument.
+command = "codex-wrapper.cmd"
+
+[run]
+max_attempts = 20
