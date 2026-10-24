@@ -1,6 +1,7 @@
 """Process execution helpers shared by external-tool adapters."""
 
 from dataclasses import dataclass
+import os
 from pathlib import Path
 import subprocess
 
@@ -17,14 +18,16 @@ class CommandResult:
         return self.returncode == 0
 
 
-def run(command: list[str], cwd: Path | None = None, timeout: int = 600) -> CommandResult:
-    """Run an external tool without invoking a shell."""
-    process = subprocess.run(
-        command,
-        cwd=cwd,
-        text=True,
-        capture_output=True,
-        timeout=timeout,
-        check=False,
-    )
+def run_command(command: list[str], cwd: Path | None = None, timeout: int = 600,
+                env: dict[str, str] | None = None, stdin: str | None = None) -> CommandResult:
+    """Run an external tool without a shell, optionally overlaying environment variables."""
+    process_env = os.environ.copy()
+    if env:
+        process_env.update(env)
+    process = subprocess.run(command, cwd=cwd, text=True, input=stdin, capture_output=True,
+                             timeout=timeout, check=False, env=process_env)
     return CommandResult(command, process.returncode, process.stdout, process.stderr)
+
+
+# Backward-compatible alias for the initial public API.
+run = run_command
