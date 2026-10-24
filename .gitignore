@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Harness state / generated work
+.xenonharness/
+workspaces/
+build/
+dist/
+
+# User-owned game material: never commit these.
+input/
+*.xex
+*.iso
+*.bin
+
+# Local configuration can contain machine-specific paths.
+harness.toml
